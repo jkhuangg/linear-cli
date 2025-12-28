@@ -7,6 +7,7 @@ module Rubyists
   module Linear
     M :issue
     M :user
+    O 'issue/list'
     # Namespace for CLI
     module CLI
       module Issue
@@ -37,31 +38,13 @@ module Rubyists
 
           def call(ids:, **options)
             logger.debug 'Listing issues'
-            return display(issues_for(options), options) if ids.empty?
-
-            display issues_for(options.merge(ids:)), options
-          end
-
-          def filters_for(options)
-            filter = {}
-            filter[:assignee] = { isMe: { eq: true } } if options[:mine]
-            filter[:assignee] = { null: true } if options[:unassigned]
-            filter[:team] = { key: { eq: options[:team] } } if options[:team]
-
-            if options[:project]
-              project = project_for(options[:project])
-              logger.debug('Found project', project:)
-              filter[:project] = { id: { eq: project.id } } if project
+            project = project_for(options[:project]) if options[:project]
+            result = Rubyists::Linear::Operations::Issue::List.call(params: options.merge(ids:), project: project)
+            if result.success?
+              display result[:issues], options
+            else
+              logger.error 'Failed to list issues'
             end
-
-            filter
-          end
-
-          def issues_for(options)
-            logger.debug('Fetching issues', options:)
-            return options[:ids].map { |id| Rubyists::Linear::Issue.find(id.upcase) } if options[:ids]
-
-            Rubyists::Linear::Issue.all filter: filters_for(options)
           end
         end
       end

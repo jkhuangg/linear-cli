@@ -6,6 +6,7 @@ module Rubyists
   # Namespace for Linear
   module Linear
     M :user
+    O :whoami
     # Namespace for CLI
     module CLI
       WhoAmI = Class.new Dry::CLI::Command
@@ -20,7 +21,12 @@ module Rubyists
 
         def call(**options)
           logger.debug 'Getting user info'
-          display Rubyists::Linear::User.me(teams: options[:teams]), options
+          result = Rubyists::Linear::Operations::WhoAmI.call(params: options)
+          if result.success?
+            display result[:user], options
+          else
+            logger.error 'Failed to get user info'
+          end
         end
 
         prepend Rubyists::Linear::CLI::Caller

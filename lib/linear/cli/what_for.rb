@@ -93,7 +93,7 @@ module Rubyists
           proposed = [pr_type_for(issue)]
           proposed_scope = pr_scope_for(issue.title)
           proposed << "(#{proposed_scope})" if proposed_scope
-          summary = issue.title.sub(/(?:#{ALLOWED_PR_TYPES})(\([^)]+\))? /, '')
+          summary = issue.title.sub(/(?:#{ALLOWED_PR_TYPES})(\([^)]+\))? /o, '')
           proposed << ": #{issue.identifier} - #{summary}"
           prompt.ask("Title for PR for #{issue.identifier} - #{summary}", default: proposed.join)
         end
@@ -113,7 +113,7 @@ module Rubyists
         end
 
         def pr_type_for(issue)
-          proposed_type = issue.title.match(/^(#{ALLOWED_PR_TYPES})/i)
+          proposed_type = issue.title.match(/^(#{ALLOWED_PR_TYPES})/io)
           return proposed_type[1].downcase if proposed_type
 
           prompt.select('What type of PR is this?', PR_TYPE_SELECTIONS)

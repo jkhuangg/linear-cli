@@ -9,7 +9,7 @@ module Rubyists
     Issue = Class.new(BaseModel)
     M 'issue/class_methods'
     # The Issue class represents a Linear issue.
-    class Issue # rubocop:disable Metrics/ClassLength
+    class Issue
       include SemanticLogger::Loggable
       extend ClassMethods
 

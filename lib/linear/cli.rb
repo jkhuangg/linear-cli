@@ -2,7 +2,6 @@
 
 require 'dry/cli'
 require 'dry/cli/completion/command'
-require_relative '../linear'
 require 'semantic_logger'
 require 'tty-markdown'
 require 'tty-prompt'

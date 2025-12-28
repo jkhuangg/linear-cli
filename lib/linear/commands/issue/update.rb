@@ -2,7 +2,6 @@
 
 require 'semantic_logger'
 require 'git'
-require_relative '../issue'
 
 module Rubyists
   # Namespace for Linear

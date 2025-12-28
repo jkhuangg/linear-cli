@@ -6,10 +6,7 @@ Feature: Completion
   # TODO: Make this not raise an exception and just show the usage instead
   Scenario: Showing exception when no shell is given
     When I run `lc completion`
-    Then the output should contain:
-      """
-      missing keyword: :shell (ArgumentError)
-      """
+    Then the output should match /missing keyword: :shell \(ArgumentError\)/
 
   Scenario: Showing exception when an invalid shell is given
     When I run `lc completion invalid`
@@ -22,5 +19,9 @@ Feature: Completion
     When I run `lc completion bash`
     Then the output should contain:
       """
-      # lc completion                                            -*- shell-script -*-
+      # linear-cli completion                                    -*- shell-script -*-
+      """
+    And the output should contain:
+      """
+      complete -F _linear-cli_completions lc
       """

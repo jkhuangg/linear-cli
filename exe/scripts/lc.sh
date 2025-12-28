@@ -29,7 +29,6 @@ elif [ $result -gt 1 ]; then
         printf "\n\nlc: linear-cli interrupted\n" >&2
         exit 130
     fi
-    printf "lc: linear-cli failed %s\n" $result >&2
-    lc "$@" --help 2>&1
-    exit 1
+    exit $result
 fi
+exit $result

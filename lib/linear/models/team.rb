@@ -5,7 +5,7 @@ require 'gqli'
 module Rubyists
   # Namespace for Linear
   module Linear
-    M :base_model, :issue, :project, :workflow_state, :user
+    M :base_model
     Team = Class.new(BaseModel)
     # The Issue class represents a Linear issue.
     class Team
@@ -65,15 +65,15 @@ module Rubyists
         @label_groups ||= []
       end
 
-      def labels # rubocop:disable Metrics/CyclomaticComplexity
+      def labels
         return @labels if @labels
 
-        @labels = Api.query(label_query).dig(:team, :labels, :nodes)&.map do |label|
+        @labels = Api.query(label_query).dig(:team, :labels, :nodes)&.filter_map do |label|
           label_groups << Label.new(label) if label[:isGroup]
           next if label[:isGroup] || label[:parent]
 
           Label.new label
-        end&.compact
+        end
       end
 
       def members

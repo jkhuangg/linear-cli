@@ -45,6 +45,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'semantic_logger'
   spec.add_dependency 'sequel'
   spec.add_dependency 'sqlite3'
+  spec.add_dependency 'trailblazer'
   spec.add_dependency 'tty-editor'
   spec.add_dependency 'tty-markdown'
   spec.add_dependency 'tty-prompt'

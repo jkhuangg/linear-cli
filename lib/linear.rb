@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'pathname'
+require 'trailblazer'
+require 'trailblazer/operation'
 require 'semantic_logger'
 SemanticLogger.default_level = :info
 SemanticLogger.add_appender(io: $stderr, formatter: :color)
@@ -21,6 +23,7 @@ module Rubyists
     ROOT = (Pathname(__FILE__)/'../..').expand_path
     LIBROOT = ROOT/:lib/:linear
     MODEL_ROOT = ROOT/:lib/:linear/:models
+    OPERATION_ROOT = ROOT/:lib/:linear/:operations
     SPEC_ROOT = ROOT/:spec
     FEATURE_ROOT = ROOT/:features
     DEBUG_LEVELS = %i[warn info debug trace].freeze
@@ -40,6 +43,10 @@ module Rubyists
 
     def self.M(*models) # rubocop:disable Naming/MethodName
       Array(models).each { |model| require MODEL_ROOT/model }
+    end
+
+    def self.O(*operations) # rubocop:disable Naming/MethodName
+      Array(operations).each { |operation| require OPERATION_ROOT/operation }
     end
     # rubocop:enable Layout/SpaceAroundOperators
 

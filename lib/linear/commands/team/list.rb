@@ -6,6 +6,7 @@ module Rubyists
   # Namespace for Linear
   module Linear
     M :team, :issue
+    O 'team/list'
     # Namespace for CLI
     module CLI
       module Team
@@ -19,13 +20,12 @@ module Rubyists
 
           def call(**options)
             logger.debug 'Listing teams'
-            display teams_for(options), options
-          end
-
-          def teams_for(options)
-            return Rubyists::Linear::Team.mine if options[:mine]
-
-            Rubyists::Linear::Team.all
+            result = Rubyists::Linear::Operations::Team::List.call(params: options)
+            if result.success?
+              display result[:teams], options
+            else
+              logger.error 'Failed to list teams'
+            end
           end
 
           prepend Rubyists::Linear::CLI::Caller

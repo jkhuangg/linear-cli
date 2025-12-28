@@ -6,7 +6,7 @@ module Rubyists
   # Namespace for Linear
   module Linear
     L :api
-    M :base_model, :issue, :team
+    M :base_model
     User = Class.new(BaseModel)
     # The User class represents a Linear user.
     class User
