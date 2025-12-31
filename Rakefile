@@ -15,7 +15,7 @@ RuboCop::RakeTask.new
 
 desc 'Run Cucumber features'
 task :cucumber do
-  sh 'cucumber --format pretty'
+  sh 'bundle exec cucumber --format pretty'
 end
 
 task default: %i[rubocop test cucumber]

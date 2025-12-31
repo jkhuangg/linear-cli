@@ -40,6 +40,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'git'
   spec.add_dependency 'gqli'
   spec.add_dependency 'httpx'
+  spec.add_dependency 'ostruct'
   spec.add_dependency 'pry-byebug'
   spec.add_dependency 'reline'
   spec.add_dependency 'semantic_logger'

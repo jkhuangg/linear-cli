@@ -22,6 +22,10 @@ module Rubyists
         updatedAt
       end
 
+      def self.mine
+        User.me.teams.flat_map(&:projects)
+      end
+
       def slug
         File.basename(url).sub("-#{slugId}", '')
       end
@@ -48,6 +52,10 @@ module Rubyists
 
       def inspection
         format('name: "%<name>s" type: "%<url>s"', name:, url:)
+      end
+
+      def display(_options)
+        printf "%s\n", to_s
       end
     end
   end

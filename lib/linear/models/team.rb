@@ -12,6 +12,23 @@ module Rubyists
       include SemanticLogger::Loggable
 
       one_to_many :projects
+      alias loaded_projects projects
+
+      def projects # rubocop:disable Metrics/MethodLength
+        return @projects if @projects
+        return @projects = loaded_projects if loaded_projects
+
+        team_id = data[:id]
+        q = query do
+          team(id: team_id) do
+            projects(first: 100) do
+              nodes { ___ Project.base_fragment }
+            end
+          end
+        end
+        data = Api.query(q)
+        @projects = data.dig(:team, :projects, :nodes)&.map { |project| Project.new project } || []
+      end
 
       # TODO: Make this configurable
       BaseFilter = { # rubocop:disable Naming/ConstantName
