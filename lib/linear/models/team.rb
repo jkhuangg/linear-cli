@@ -6,6 +6,7 @@ module Rubyists
   # Namespace for Linear
   module Linear
     M :base_model
+    M :workflow_state
     Team = Class.new(BaseModel)
     # The Issue class represents a Linear issue.
     class Team
